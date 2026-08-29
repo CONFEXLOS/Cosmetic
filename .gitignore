@@ -1,0 +1,46 @@
+# Dependencies
+node_modules/
+
+# Build output
+dist/
+dist-ssr/
+
+# Environment variables
+.env
+.env.local
+.env.*.local
+
+# Editor directories
+.vscode/*
+!.vscode/extensions.json
+.idea/
+
+# Testing
+coverage/
+*.test.js.snap
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+lerna-debug.log*
+
+# Temporary files
+*.temp
+*.tmp
+.cache/
+
+# Supabase (keep migrations committed)
+supabase/.cache/
+
+# Build folder
+*.local
+
+# Misc
+.eslintcache
+.stylelintcache
+.cache/
