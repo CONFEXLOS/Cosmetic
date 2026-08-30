@@ -1,0 +1,249 @@
+<!doctype html>
+<html lang="fr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#5b1f64">
+<meta name="description" content="BeautyLink Africa — réseau social, experts, Beauty Passport et marketplace beauté pour l’Afrique.">
+<title>BeautyLink Africa — MVP</title>
+<link rel="manifest" href="./manifest.webmanifest">
+<link rel="stylesheet" href="./assets/app.css">
+<script src="./config.js"></script>
+</head>
+<body>
+<div id="toast" class="toast"></div>
+<header class="topbar">
+  <a href="#" class="logo" data-view="dashboard"><span class="logo-mark">B</span><span>BeautyLink Africa</span></a>
+  <div class="search"><input id="globalSearch" placeholder="Rechercher un produit, un expert ou un contenu…"></div>
+  <div class="top-actions">
+    <button class="icon-btn" data-view="messages">💬 <span class="label">Messages</span></button>
+    <button class="icon-btn" data-view="carecart">🛍️ <span id="cartCount">3</span></button>
+    <button class="avatar" data-view="passport">MS</button>
+  </div>
+</header>
+<div class="layout">
+<aside class="sidebar">
+  <div class="nav-label">Découvrir</div>
+  <button class="nav-item active" data-view="dashboard"><span class="nav-icon">⌂</span>Accueil</button>
+  <button class="nav-item" data-view="feed"><span class="nav-icon">◉</span>Réseau social</button>
+  <button class="nav-item" data-view="experts"><span class="nav-icon">✦</span>Experts</button>
+  <button class="nav-item" data-view="shop"><span class="nav-icon">◇</span>Boutique</button>
+  <button class="nav-item" data-view="carecart"><span class="nav-icon">🛍</span>Care Cart</button>
+  <div class="nav-label">Mon espace</div>
+  <button class="nav-item" data-view="passport"><span class="nav-icon">♙</span>Beauty Passport</button>
+  <button class="nav-item" data-view="evolution"><span class="nav-icon">↗</span>Mon évolution</button>
+  <button class="nav-item" data-view="routine"><span class="nav-icon">☼</span>Ma routine</button>
+  <button class="nav-item" data-view="reminders"><span class="nav-icon">♢</span>Rappels & tips</button>
+  <button class="nav-item" data-view="orders"><span class="nav-icon">▣</span>Commandes</button>
+  <button class="nav-item" data-view="messages"><span class="nav-icon">✉</span>Messagerie</button>
+  <div class="nav-label">Professionnels</div>
+  <button class="nav-item" data-view="professional"><span class="nav-icon">⚕</span>Dashboard pro</button>
+  <button class="nav-item" data-view="seller"><span class="nav-icon">◆</span>Dashboard vendeur</button>
+  <button class="nav-item" data-view="admin"><span class="nav-icon">⚙</span>Administration</button>
+  <div class="role-box">
+    <strong class="small">Mode démonstration</strong>
+    <select id="roleSwitch">
+      <option value="consumer">Consommateur</option>
+      <option value="professional">Professionnel beauté</option>
+      <option value="doctor">Dermatologue</option>
+      <option value="seller">Marque / vendeur</option>
+      <option value="admin">Administrateur</option>
+    </select>
+  </div>
+</aside>
+<main class="main"><div id="connectionBanner" class="connection-banner" role="status"></div>
+<section class="page active" id="dashboard">
+  <div class="hero">
+    <div>
+      <span class="pill">✦ Beauté, expertise et confiance</span>
+      <h1>Votre parcours beauté, réuni au même endroit.</h1>
+      <p>Suivez votre évolution, consultez des experts vérifiés, découvrez des contenus utiles et achetez des produits adaptés à votre profil.</p>
+      <div class="row" style="margin-top:20px;flex-wrap:wrap">
+        <button class="btn primary" data-view="passport">Créer mon Beauty Passport</button>
+        <button class="btn" data-view="experts">Trouver un expert</button>
+      </div>
+    </div>
+    <div class="hero-visual" aria-label="Aperçu BeautyLink Africa"><div class="hero-phone">🌸<strong>Beauty Passport</strong><span>Routine • Experts • Boutique</span></div><div class="hero-dashboard"><b>Votre évolution</b><span>Régularité 92%</span><span>Care Cart 4 produits</span><span>1 rendez-vous</span></div></div>
+  </div>
+  <div class="quick-grid">
+    <button class="quick" data-view="passport">🪪<strong>Beauty Passport</strong></button>
+    <button class="quick" data-view="experts">⚕<strong>Experts vérifiés</strong></button>
+    <button class="quick" data-view="shop">🧴<strong>Produits adaptés</strong></button>
+    <button class="quick" data-view="routine">☀️<strong>Routine du jour</strong></button>
+    <button class="quick" data-view="reminders">🔔<strong>Rappels customisés</strong></button>
+    <button class="quick" onclick="openAI()">✦<strong>Conseiller IA</strong></button>
+  </div>
+  <div class="grid cols-4" style="margin-top:16px">
+    <div class="card stat"><span class="muted small">Régularité routine</span><div class="value">92%</div><span class="trend">↑ 8% ce mois</span></div>
+    <div class="card stat"><span class="muted small">Care Cart</span><div class="value">3</div><span class="trend">2 prêts à commander</span></div>
+    <div class="card stat"><span class="muted small">Points fidélité</span><div class="value">1 250</div><span class="trend">Statut Or</span></div>
+    <div class="card stat"><span class="muted small">Prochain rendez-vous</span><div class="value" style="font-size:20px">Sam. 10:30</div><span class="trend">Dr Aïssatou Diagne</span></div>
+  </div>
+  <div class="grid cols-2" style="margin-top:16px">
+    <div class="card">
+      <div class="row between"><h3>Évolution déclarée</h3><span class="badge green">Sans diagnostic IA</span></div>
+      <div class="chart">
+        <div class="bar" style="height:46%"><span>S1</span></div><div class="bar" style="height:58%"><span>S2</span></div>
+        <div class="bar" style="height:63%"><span>S3</span></div><div class="bar" style="height:76%"><span>S4</span></div>
+        <div class="bar" style="height:82%"><span>S5</span></div><div class="bar" style="height:92%"><span>S6</span></div>
+      </div>
+    </div>
+    <div class="card">
+      <div class="row between"><h3>Aujourd’hui</h3><button class="btn soft" data-view="routine">Voir la routine</button></div>
+      <div class="reminder"><div>☀️</div><div><strong>Nettoyant doux</strong><div class="muted small">Matin · étape 1/3</div></div><span class="badge green">Fait</span></div>
+      <div class="reminder"><div>💧</div><div><strong>Sérum niacinamide</strong><div class="muted small">3 gouttes · étape 2/3</div></div><button class="btn soft" onclick="completeTask(this)">Valider</button></div>
+      <div class="reminder"><div>🛡️</div><div><strong>Crème SPF30</strong><div class="muted small">Dernière étape</div></div><button class="btn soft" onclick="completeTask(this)">Valider</button></div>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="feed">
+  <div class="page-head"><div><h1>Réseau beauté</h1><p>Contenus éducatifs, expériences et conseils vérifiés.</p></div><button class="btn primary" onclick="document.getElementById('composer').focus()">Créer un post</button></div>
+  <div class="feed">
+    <div class="card composer"><textarea id="composer" placeholder="Partagez un conseil, une question ou votre progression…"></textarea><div class="row between"><span class="muted small">Photos, vidéos et visibilité configurables</span><button class="btn primary" onclick="publishPost()">Publier</button></div></div>
+    <div id="postList" style="margin-top:15px"></div>
+  </div>
+</section>
+
+<section class="page" id="experts">
+  <div class="page-head"><div><h1>Professionnels vérifiés</h1><p>Dermatologues, esthéticiennes, barbiers et spécialistes beauté.</p></div><button class="btn" onclick="toast('Filtres de compétences ouverts')">⚙ Filtres</button></div>
+  <div class="grid cols-3" id="expertGrid"></div>
+</section>
+
+<section class="page" id="shop">
+  <div class="page-head"><div><h1>Boutique</h1><p>Skincare, parfums, cheveux, barbe, hygiène et accessoires.</p></div><button class="btn" onclick="toast('Filtres catalogue appliqués')">Catégories & filtres</button></div>
+  <div class="row" style="gap:8px;overflow:auto;margin-bottom:15px">
+    <button class="btn soft" onclick="filterProducts('all')">Tous</button><button class="btn" onclick="filterProducts('visage')">Visage</button><button class="btn" onclick="filterProducts('parfums')">Parfums</button><button class="btn" onclick="filterProducts('homme')">Homme</button><button class="btn" onclick="filterProducts('accessoires')">Accessoires</button>
+  </div>
+  <div class="products" id="productGrid"></div>
+</section>
+
+<section class="page" id="carecart">
+  <div class="page-head"><div><h1>Care Cart</h1><p>Votre panier de routine évolutif : achetez maintenant ou progressivement.</p></div><button class="btn" onclick="shareCart()">Partager avec un expert</button></div>
+  <div class="grid cols-2">
+    <div class="card"><div id="cartLines"></div></div>
+    <div class="card">
+      <h3>Résumé sélectionné</h3>
+      <div class="row between"><span>Sous-total</span><strong id="subtotal">0 FCFA</strong></div>
+      <div class="row between" style="margin-top:8px"><span>Livraison Dakar</span><strong>2 000 FCFA</strong></div>
+      <div class="sep"></div>
+      <div class="row between" style="font-size:20px"><strong>Total</strong><strong id="grandtotal">0 FCFA</strong></div>
+      <button class="btn primary" style="width:100%;margin-top:16px" onclick="openCheckout()">Valider les produits sélectionnés</button>
+      <button class="btn" style="width:100%;margin-top:8px" onclick="selectAllCart()">Tout sélectionner</button>
+      <p class="muted small">Les produits non sélectionnés restent enregistrés dans votre Care Cart.</p>
+    </div>
+  </div>
+</section>
+
+<section class="page" id="passport">
+  <div class="page-head"><div><h1>Beauty Passport</h1><p>Données personnelles, profil beauté, galeries et consentements.</p></div><button class="btn primary" onclick="toast('Modifications du profil enregistrées')">Enregistrer</button></div>
+  <div class="card profile-head">
+    <div class="big-avatar">MS</div><div><h2 style="margin:0">Mariama Sow</h2><p class="muted">Dakar · Beauty ID BL-SN-10248</p><span class="badge gold">Membre Or · 1 250 points</span></div><button class="btn">Modifier</button>
+  </div>
+  <div class="grid cols-2" style="margin-top:16px">
+    <div class="card"><h3>Fiche beauté</h3><div class="row between"><span>Type de peau déclaré</span><strong>Mixte à grasse</strong></div><div class="sep"></div><div class="row between"><span>Objectifs</span><span class="badge">Taches · Hydratation</span></div><div class="sep"></div><div class="row between"><span>Préférences parfum</span><strong>Boisé, floral frais</strong></div><div class="sep"></div><div class="row between"><span>Budget mensuel</span><strong>20–45 000 FCFA</strong></div></div>
+    <div class="card"><h3>Consentements</h3><div class="reminder"><span>🔐</span><div><strong>Données personnelles</strong><div class="muted small">Nécessaire au compte</div></div><button class="switch on" onclick="toggleSwitch(this)"></button></div><div class="reminder"><span>⚕</span><div><strong>Partage clinique</strong><div class="muted small">Au cas par cas</div></div><button class="switch" onclick="toggleSwitch(this)"></button></div><div class="reminder"><span>✦</span><div><strong>Conseils IA</strong><div class="muted small">Non médicaux uniquement</div></div><button class="switch on" onclick="toggleSwitch(this)"></button></div><div class="reminder"><span>📣</span><div><strong>Marketing</strong><div class="muted small">Facultatif</div></div><button class="switch" onclick="toggleSwitch(this)"></button></div></div>
+    <div class="card"><div class="row between"><h3>Galerie privée</h3><span class="badge green">Chiffrée & privée</span></div><p class="muted">Les médias ne sont visibles que par vous et les professionnels autorisés.</p><div class="grid cols-3"><div class="product-art" style="height:110px;border-radius:14px">📷</div><div class="product-art" style="height:110px;border-radius:14px">📷</div><button class="product-art" style="height:110px;border:1px dashed var(--purple);border-radius:14px" onclick="toast('Ajout sécurisé simulé')">＋</button></div></div>
+    <div class="card"><h3>Accès partagés</h3><div class="reminder"><div class="post-avatar">AD</div><div><strong>Dr Aïssatou Diagne</strong><div class="muted small">2 photos · jusqu’au 30/09</div></div><button class="btn" onclick="this.closest('.reminder').remove();toast('Accès révoqué')">Révoquer</button></div><button class="btn soft" onclick="toast('Sélecteur de professionnel ouvert')">Accorder un nouvel accès</button></div>
+  </div>
+</section>
+
+<section class="page" id="evolution">
+  <div class="page-head"><div><h1>Mon évolution</h1><p>Progression déclarée et chronologie, sans score médical automatisé.</p></div><button class="btn primary" onclick="toast('Nouvelle entrée de suivi créée')">Ajouter une entrée</button></div>
+  <div class="grid cols-2">
+    <div class="card"><h3>Régularité de routine</h3><div class="chart"><div class="bar" style="height:54%"><span>Mai</span></div><div class="bar" style="height:67%"><span>Juin</span></div><div class="bar" style="height:75%"><span>Juil.</span></div><div class="bar" style="height:92%"><span>Août</span></div></div></div>
+    <div class="card"><h3>Chronologie</h3><div class="timeline"><div class="timeline-item"><strong>Aujourd’hui · Satisfaction 4,6/5</strong><p class="muted">Routine bien tolérée, progression personnelle déclarée.</p></div><div class="timeline-item"><strong>Il y a 14 jours · Satisfaction 4,2/5</strong><p class="muted">Introduction progressive du sérum.</p></div><div class="timeline-item"><strong>Il y a 28 jours · Début du suivi</strong><p class="muted">Photos privées et objectifs enregistrés.</p></div></div></div>
+  </div>
+</section>
+
+<section class="page" id="routine">
+  <div class="page-head"><div><h1>Ma routine</h1><p>Étapes personnalisées et feedbacks dans le temps.</p></div><button class="btn" onclick="toast('Routine en mode édition')">Modifier</button></div>
+  <div class="grid cols-2">
+    <div class="card"><h3>☀️ Matin</h3><div id="morningRoutine"></div></div>
+    <div class="card"><h3>🌙 Soir</h3><div id="eveningRoutine"></div></div>
+  </div>
+</section>
+
+<section class="page" id="reminders">
+  <div class="page-head"><div><h1>Rappels & tips</h1><p>Canaux, horaires et fréquence contrôlés par le client.</p></div><button class="btn primary" onclick="toast('Nouveau rappel créé')">Nouveau rappel</button></div>
+  <div class="grid cols-2">
+    <div class="card" id="reminderList"></div>
+    <div class="card"><h3>Préférences de contact</h3><div class="reminder"><span>📱</span><div><strong>Dans l’application</strong><div class="muted small">Toujours actif</div></div><button class="switch on" onclick="toggleSwitch(this)"></button></div><div class="reminder"><span>🟢</span><div><strong>WhatsApp</strong><div class="muted small">Routines et suivis</div></div><button class="switch on" onclick="toggleSwitch(this)"></button></div><div class="reminder"><span>✉️</span><div><strong>E-mail</strong><div class="muted small">Récapitulatif hebdo</div></div><button class="switch" onclick="toggleSwitch(this)"></button></div><div class="reminder"><span>🌙</span><div><strong>Heures silencieuses</strong><div class="muted small">21:30 – 07:00</div></div><button class="switch on" onclick="toggleSwitch(this)"></button></div></div>
+  </div>
+</section>
+
+<section class="page" id="orders">
+  <div class="page-head"><div><h1>Commandes</h1><p>Historique des paniers, paiements et livraisons.</p></div></div>
+  <div class="card table-wrap"><table class="table"><thead><tr><th>Commande</th><th>Date</th><th>Articles</th><th>Total</th><th>Statut</th><th></th></tr></thead><tbody><tr><td>#BL-12548</td><td>20 août 2026</td><td>3 produits</td><td>43 900 FCFA</td><td><span class="badge green">En livraison</span></td><td><button class="btn" onclick="orderTimeline()">Suivre</button></td></tr><tr><td>#BL-11932</td><td>18 juillet 2026</td><td>2 produits</td><td>27 400 FCFA</td><td><span class="badge">Livrée</span></td><td><button class="btn" onclick="toast('Produits ajoutés au Care Cart')">Racheter</button></td></tr><tr><td>#BL-10887</td><td>04 juin 2026</td><td>1 produit</td><td>39 000 FCFA</td><td><span class="badge">Livrée</span></td><td><button class="btn">Détails</button></td></tr></tbody></table></div>
+</section>
+
+<section class="page" id="messages">
+  <div class="page-head"><div><h1>Messagerie sécurisée</h1><p>Conversations, médias privés et demandes de conseil.</p></div><button class="btn primary" onclick="toast('Nouvelle conversation démarrée')">Nouveau message</button></div>
+  <div class="message-layout">
+    <div class="threads"><div class="thread active"><div class="post-avatar">AD</div><div><strong>Dr Aïssatou</strong><div class="muted small">Votre rendez-vous est confirmé…</div></div></div><div class="thread"><div class="post-avatar">FN</div><div><strong>Fatou Skin Coach</strong><div class="muted small">Merci pour votre feedback.</div></div></div><div class="thread"><div class="post-avatar">TS</div><div><strong>Teranga Skin</strong><div class="muted small">Votre commande est expédiée.</div></div></div></div>
+    <div class="chat"><div class="row between" style="padding:14px;border-bottom:1px solid var(--line)"><div class="row"><div class="post-avatar">AD</div><div><strong>Dr Aïssatou Diagne</strong><div class="muted small">Médecin vérifié · Dermatologue</div></div></div><button class="btn primary" onclick="showView('video')">📹 Appel vidéo</button></div><div class="chat-log" id="chatLog"><div class="bubble">Bonjour Mariama. J’ai bien reçu les informations que vous avez choisi de partager pour la consultation.</div><div class="bubble me">Merci Docteur. Je confirme le rendez-vous de samedi à 10h30.</div><div class="bubble">Parfait. En cas d’urgence ou d’aggravation rapide, consultez un service médical sans attendre la téléconsultation.</div></div><div class="chat-input"><button class="icon-btn" onclick="toast('Pièce jointe privée simulée')">📎</button><input id="chatInput" placeholder="Écrire un message…"><button class="btn primary" onclick="sendMessage()">Envoyer</button></div></div>
+  </div>
+</section>
+
+<section class="page" id="video">
+  <div class="page-head"><div><h1>Téléconsultation</h1><p>Salle de démonstration — aucune communication réelle.</p></div><span class="badge red">Mode sandbox</span></div>
+  <div class="call-room"><div class="video-main">👩🏾‍⚕️<div class="call-controls"><button onclick="toggleControl(this)">🎤</button><button onclick="toggleControl(this)">📷</button><button onclick="toast('Partage d’écran simulé')">▣</button><button class="hang" onclick="endCall()">☎</button></div></div><div class="video-side"><div class="video-tile">👩🏾</div><div class="card" style="color:var(--ink)"><strong>Consentement actif</strong><p class="muted small">Partage limité à cette consultation. La téléconsultation ne convient pas aux urgences.</p></div></div></div>
+</section>
+
+<section class="page" id="professional">
+  <div class="page-head"><div><h1>Dashboard professionnel</h1><p>Agenda, clients, demandes, contenus et CRM.</p></div><button class="btn primary" onclick="toast('Créneau ajouté à l’agenda')">Ajouter un créneau</button></div>
+  <div class="grid cols-4"><div class="card stat"><span class="muted small">Demandes</span><div class="value">18</div><span class="trend">5 nouvelles</span></div><div class="card stat"><span class="muted small">Rendez-vous</span><div class="value">32</div><span class="trend">Ce mois</span></div><div class="card stat"><span class="muted small">Abonnés</span><div class="value">4,8K</div><span class="trend">↑ 12%</span></div><div class="card stat"><span class="muted small">Satisfaction</span><div class="value">4,9</div><span class="trend">184 avis</span></div></div>
+  <div class="grid cols-2" style="margin-top:16px"><div class="card"><h3>Agenda du jour</h3><div class="timeline"><div class="timeline-item"><strong>10:30 · Mariama Sow</strong><p class="muted">Téléconsultation · dossier partagé</p></div><div class="timeline-item"><strong>12:00 · Aminata Fall</strong><p class="muted">Suivi en cabinet</p></div><div class="timeline-item"><strong>15:30 · Cheikh Ba</strong><p class="muted">Première consultation</p></div></div></div><div class="card"><h3>CRM de suivi</h3><div class="reminder"><span>🟣</span><div><strong>Feedbacks à examiner</strong><div class="muted small">7 clients</div></div><span class="badge red">Priorité</span></div><div class="reminder"><span>🔔</span><div><strong>Suivis J+14</strong><div class="muted small">12 rappels programmés</div></div><span class="badge">Automatisé</span></div><div class="reminder"><span>🎬</span><div><strong>Contenu éducatif</strong><div class="muted small">2 brouillons à publier</div></div><button class="btn">Ouvrir</button></div></div></div>
+</section>
+
+<section class="page" id="seller">
+  <div class="page-head"><div><h1>Dashboard marque & vendeur</h1><p>Produits, lots, commandes, campagnes et service après-vente.</p></div><button class="btn primary" onclick="toast('Fiche produit créée')">Nouveau produit</button></div>
+  <div class="grid cols-4"><div class="card stat"><span class="muted small">Ventes</span><div class="value">12,45M</div><span class="trend">FCFA · ↑18%</span></div><div class="card stat"><span class="muted small">Commandes</span><div class="value">1 248</div><span class="trend">↑12%</span></div><div class="card stat"><span class="muted small">Stock faible</span><div class="value">12</div><span class="trend">Références</span></div><div class="card stat"><span class="muted small">Réachat</span><div class="value">34,6%</div><span class="trend">↑8%</span></div></div>
+  <div class="grid cols-2" style="margin-top:16px"><div class="card"><h3>Ventes hebdomadaires</h3><div class="chart"><div class="bar" style="height:47%"><span>Lun</span></div><div class="bar" style="height:68%"><span>Mar</span></div><div class="bar" style="height:55%"><span>Mer</span></div><div class="bar" style="height:81%"><span>Jeu</span></div><div class="bar" style="height:72%"><span>Ven</span></div><div class="bar" style="height:94%"><span>Sam</span></div></div></div><div class="card"><h3>Alertes opérationnelles</h3><div class="reminder"><span>📦</span><div><strong>Sérum Éclat</strong><div class="muted small">Lot TS-2412 · 8 unités</div></div><span class="badge red">Faible</span></div><div class="reminder"><span>⏳</span><div><strong>Lots à surveiller</strong><div class="muted small">4 expirations dans 120 jours</div></div><span class="badge gold">Vérifier</span></div><div class="reminder"><span>💬</span><div><strong>SAV</strong><div class="muted small">15 demandes ouvertes</div></div><button class="btn">Traiter</button></div></div></div>
+</section>
+
+<section class="page" id="admin">
+  <div class="page-head"><div><h1>Administration & confiance</h1><p>Vérifications, modération, paiements, audit et configuration pays.</p></div><button class="btn" onclick="toast('Rapport d’audit exporté')">Exporter l’audit</button></div>
+  <div class="grid cols-4"><div class="card stat"><span class="muted small">Utilisateurs</span><div class="value">18 420</div><span class="trend">+456 ce mois</span></div><div class="card stat"><span class="muted small">Experts vérifiés</span><div class="value">246</div><span class="trend">18 en attente</span></div><div class="card stat"><span class="muted small">Signalements</span><div class="value">27</div><span class="trend">6 prioritaires</span></div><div class="card stat"><span class="muted small">Pays actifs</span><div class="value">1</div><span class="trend">Sénégal</span></div></div>
+  <div class="grid cols-2" style="margin-top:16px"><div class="card"><h3>Vérifications professionnelles</h3><div class="reminder"><div class="post-avatar">MD</div><div><strong>Dr Moussa Diallo</strong><div class="muted small">Diplôme et n° d’ordre reçus</div></div><button class="btn primary" onclick="approve(this)">Examiner</button></div><div class="reminder"><div class="post-avatar">AS</div><div><strong>Aminata Beauty Spa</strong><div class="muted small">Certification à vérifier</div></div><button class="btn primary" onclick="approve(this)">Examiner</button></div></div><div class="card"><h3>Modération</h3><div class="reminder"><span>⚠️</span><div><strong>Promesse médicale non prouvée</strong><div class="muted small">Post vendeur · priorité haute</div></div><button class="btn coral" onclick="moderate(this)">Traiter</button></div><div class="reminder"><span>🔒</span><div><strong>Photo privée signalée</strong><div class="muted small">Accès suspendu automatiquement</div></div><button class="btn" onclick="moderate(this)">Examiner</button></div></div></div>
+  <div class="card table-wrap" style="margin-top:16px"><h3>État de la base Supabase</h3><table class="table"><tbody><tr><td>Tables publiques</td><td><strong>64</strong></td><td>Identité, suivi, clinique, commerce, communauté et gouvernance</td></tr><tr><td>Politiques RLS</td><td><strong>74</strong></td><td>Séparation des rôles et des domaines de données</td></tr><tr><td>Buckets Storage</td><td><strong>6</strong></td><td>Médias publics, produits, portfolios, galeries privées et clinique</td></tr><tr><td>Paiements</td><td><span class="badge gold">Sandbox</span></td><td>Wave, Orange Money, carte et paiement à la livraison</td></tr></tbody></table></div>
+</section>
+<div class="footer-note">BeautyLink Africa fournit des outils de suivi et des conseils cosmétiques. L’assistant IA ne remplace pas un professionnel de santé, ne pose pas de diagnostic et ne prescrit aucun traitement. En cas d’urgence ou de symptômes inquiétants, consultez immédiatement un service médical approprié.</div>
+</main>
+</div>
+
+<nav class="mobile-nav">
+<button data-view="dashboard"><span>⌂</span>Accueil</button><button data-view="feed"><span>◉</span>Réseau</button><button data-view="experts"><span>⚕</span>Experts</button><button data-view="shop"><span>◇</span>Boutique</button><button data-view="passport"><span>♙</span>Profil</button>
+</nav>
+
+<button class="ai-fab" onclick="openAI()" title="Conseiller IA">✦</button>
+
+<div class="modal-backdrop" id="aiModal" onclick="closeOnBackdrop(event,'aiModal')"><div class="modal">
+  <div class="row between"><div><span class="pill">Assistant IA non médical</span><h2>Conseiller BeautyLink</h2></div><button class="icon-btn" onclick="closeModal('aiModal')">✕</button></div>
+  <p class="muted">Je peux expliquer des ingrédients, organiser une routine, comparer les produits disponibles et vous aider à préparer une consultation. Je ne peux ni diagnostiquer ni prescrire.</p>
+  <div id="aiLog"><div class="bubble">Bonjour Mariama 👋. Souhaitez-vous revoir votre routine, choisir un parfum ou poser une question à un professionnel ?</div></div>
+  <div class="row"><input id="aiInput" style="flex:1;border:1px solid var(--line);border-radius:12px;padding:12px" placeholder="Ex. J’ai un budget de 25 000 FCFA…"><button class="btn primary" onclick="askAI()">Envoyer</button></div>
+  <button class="btn soft" style="margin-top:10px" data-view="experts" onclick="closeModal('aiModal')">Consulter un professionnel</button>
+</div></div>
+
+<div class="modal-backdrop" id="checkoutModal" onclick="closeOnBackdrop(event,'checkoutModal')"><div class="modal">
+  <div class="row between"><div><span class="pill">Paiement sandbox</span><h2>Finaliser la commande</h2></div><button class="icon-btn" onclick="closeModal('checkoutModal')">✕</button></div>
+  <div class="grid cols-2">
+    <div><label><strong>Adresse</strong></label><input value="Sacré-Cœur 3, Dakar" style="width:100%;margin:7px 0 12px;border:1px solid var(--line);border-radius:12px;padding:11px"><label><strong>Point de repère</strong></label><input value="En face de la pharmacie Mermoz" style="width:100%;margin:7px 0 12px;border:1px solid var(--line);border-radius:12px;padding:11px"><label><strong>Livraison</strong></label><select style="width:100%;margin:7px 0;border:1px solid var(--line);border-radius:12px;padding:11px"><option>Dakar standard · 2 000 FCFA</option><option>Express · 3 500 FCFA</option></select></div>
+    <div><strong>Moyen de paiement</strong><div class="reminder"><span>〰</span><div><strong>Wave</strong><div class="muted small">Sandbox</div></div><input type="radio" name="pay" checked></div><div class="reminder"><span>◉</span><div><strong>Orange Money</strong><div class="muted small">Sandbox</div></div><input type="radio" name="pay"></div><div class="reminder"><span>💳</span><div><strong>Carte bancaire</strong><div class="muted small">Sandbox</div></div><input type="radio" name="pay"></div><div class="reminder"><span>📦</span><div><strong>À la livraison</strong></div><input type="radio" name="pay"></div></div>
+  </div>
+  <button class="btn primary" style="width:100%;margin-top:15px" onclick="paySandbox()">Payer en mode démonstration</button>
+  <p class="muted small">Aucun débit réel. Les webhooks, signatures et identifiants marchands doivent être configurés côté serveur avant production.</p>
+</div></div>
+
+<div class="modal-backdrop" id="bookingModal" onclick="closeOnBackdrop(event,'bookingModal')"><div class="modal">
+  <div class="row between"><div><span class="pill">Réservation</span><h2 id="bookingTitle">Prendre rendez-vous</h2></div><button class="icon-btn" onclick="closeModal('bookingModal')">✕</button></div>
+  <div class="grid cols-2"><div><label><strong>Motif</strong></label><textarea style="width:100%;min-height:120px;margin-top:7px;border:1px solid var(--line);border-radius:12px;padding:11px" placeholder="Décrivez votre demande…"></textarea></div><div><strong>Créneaux disponibles</strong><div class="row" style="flex-wrap:wrap;margin-top:8px"><button class="btn soft">Sam. 10:30</button><button class="btn">Lun. 14:00</button><button class="btn">Mer. 16:30</button></div><div class="reminder" style="margin-top:15px"><span>🔐</span><div><strong>Consentement</strong><div class="muted small">Partage limité à la consultation</div></div><button class="switch on" onclick="toggleSwitch(this)"></button></div></div></div>
+  <div class="sep"></div><div class="row between"><span>Consultation séparée des achats produits</span><strong>25 000 FCFA</strong></div>
+  <button class="btn primary" style="width:100%;margin-top:15px" onclick="confirmBooking()">Confirmer en mode démonstration</button>
+</div></div>
+
+
+<script src="./assets/app.js" defer></script>
+</body>
+</html>

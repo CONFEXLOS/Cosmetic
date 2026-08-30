@@ -1,0 +1,17 @@
+{
+  "name": "beautylink-africa",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MVP stable, autonome et sécurisé de BeautyLink Africa",
+  "scripts": {
+    "dev": "node tools/serve.mjs",
+    "build": "node tools/build.mjs",
+    "check": "node tools/check.mjs",
+    "test": "node tools/check.mjs",
+    "preview": "node tools/serve.mjs dist 4173"
+  },
+  "engines": {
+    "node": ">=20"
+  }
+}
