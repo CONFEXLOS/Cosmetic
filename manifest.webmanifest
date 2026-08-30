@@ -1,0 +1,12 @@
+{
+  "name": "BeautyLink Africa",
+  "short_name": "BeautyLink",
+  "description": "Réseau social, experts, Beauty Passport et marketplace beauté pour l'Afrique.",
+  "lang": "fr",
+  "start_url": "./#dashboard",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#fbf7f1",
+  "theme_color": "#5b1f64",
+  "icons": []
+}
