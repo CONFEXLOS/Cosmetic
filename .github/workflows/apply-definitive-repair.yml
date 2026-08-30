@@ -1,13 +1,81 @@
 name: Apply definitive BeautyLink repair
 
 on:
-  workflow_dispatch:
+  push:
+    branches:
+      - feat/beautylink-africa-mvp
+    paths:
+      - ".github/workflows/apply-definitive-repair.yml"
 
 permissions:
   contents: write
 
+concurrency:
+  group: beautylink-definitive-repair
+  cancel-in-progress: true
+
 jobs:
-  paused:
+  repair:
+    if: ${{ !contains(github.event.head_commit.message, '[repair-applied]') }}
     runs-on: ubuntu-latest
     steps:
-      - run: echo "Repair workflow paused while verified fragments are uploaded."
+      - name: Checkout repair branch
+        uses: actions/checkout@v4
+        with:
+          ref: feat/beautylink-africa-mvp
+          fetch-depth: 0
+
+      - name: Rebuild clean repository tree
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/beautylink-payload /tmp/beautylink-unpacked
+
+          cat \
+            repair/chunks/part-00a.b64 \
+            repair/chunks/part-00b.b64 \
+            repair/chunks/part-01.b64 \
+            repair/chunks/part-02.b64 \
+            repair/chunks/part-03a.b64 \
+            repair/chunks/part-03b.b64 \
+            repair/chunks/part-04.b64 \
+            repair/chunks/part-05.b64 \
+            repair/chunks/part-06a.b64 \
+            repair/chunks/part-06c-00.b64 \
+            repair/chunks/part-06c-01.b64 \
+            repair/chunks/part-06c-02.b64 \
+            repair/chunks/part-06c-03.b64 \
+            repair/chunks/part-06c-04.b64 \
+            repair/chunks/part-06c-05.b64 \
+            | tr -d '[:space:]' \
+            > /tmp/beautylink-payload/repository.clean.b64
+
+          test "$(wc -c < /tmp/beautylink-payload/repository.clean.b64)" -eq 83256
+          echo "3bb5513d4af6f130fb979a143b8d8e126967f441a71eaf6c29c55be03d7185e9  /tmp/beautylink-payload/repository.clean.b64" \
+            | sha256sum --check
+
+          base64 -d /tmp/beautylink-payload/repository.clean.b64 \
+            > /tmp/beautylink-payload/repository.zip
+
+          echo "7017114d0299e702571c1efbd3d4be6140187a270dc69ee15f0420b8e28962b3  /tmp/beautylink-payload/repository.zip" \
+            | sha256sum --check
+
+          unzip -t /tmp/beautylink-payload/repository.zip
+          unzip -q /tmp/beautylink-payload/repository.zip -d /tmp/beautylink-unpacked
+
+          find . -mindepth 1 -maxdepth 1 ! -name .git -exec rm -rf {} +
+          cp -a /tmp/beautylink-unpacked/. .
+
+          npm run check
+          npm run build
+          rm -rf dist
+
+      - name: Commit definitive repair
+        shell: bash
+        run: |
+          set -euo pipefail
+          git config user.name "BeautyLink Repair Bot"
+          git config user.email "actions@users.noreply.github.com"
+          git add -A
+          git commit -m "chore: replace corrupted scaffold with stable BeautyLink MVP [repair-applied]"
+          git push origin HEAD:feat/beautylink-africa-mvp
