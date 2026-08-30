@@ -32,6 +32,36 @@ jobs:
           set -euo pipefail
           mkdir -p /tmp/beautylink-payload /tmp/beautylink-unpacked
 
+          python3 - <<'PY'
+          from pathlib import Path
+          import hashlib
+
+          source = ''.join(Path('repair/chunks/part-06.b64').read_text().split())
+          expected_length = 11256
+          expected_hash = 'f1e590238bc9637acdcd417a9ddfbaf58a392b6b1e4749c43a258a9cd25c985f'
+
+          def digest(value: str) -> str:
+              return hashlib.sha256(value.encode()).hexdigest()
+
+          clean = None
+          if len(source) == expected_length and digest(source) == expected_hash:
+              clean = source
+          elif len(source) == expected_length + 4:
+              for index in range(len(source) - 3):
+                  candidate = source[:index] + source[index + 4:]
+                  if digest(candidate) == expected_hash:
+                      clean = candidate
+                      print(f'Removed four corrupt characters at offset {index}.')
+                      break
+
+          if clean is None:
+              raise SystemExit(
+                  f'Unable to normalize final chunk: length={len(source)} sha256={digest(source)}'
+              )
+
+          Path('/tmp/beautylink-payload/part-06.clean.b64').write_text(clean)
+          PY
+
           cat \
             repair/chunks/part-00a.b64 \
             repair/chunks/part-00b.b64 \
@@ -41,13 +71,8 @@ jobs:
             repair/chunks/part-03b.b64 \
             repair/chunks/part-04.b64 \
             repair/chunks/part-05.b64 \
-            > /tmp/beautylink-payload/repository.zip.b64
-
-          head -c 11256 repair/chunks/part-06.b64 \
-            >> /tmp/beautylink-payload/repository.zip.b64
-
-          tr -d '[:space:]' \
-            < /tmp/beautylink-payload/repository.zip.b64 \
+            /tmp/beautylink-payload/part-06.clean.b64 \
+            | tr -d '[:space:]' \
             > /tmp/beautylink-payload/repository.clean.b64
 
           base64 -d /tmp/beautylink-payload/repository.clean.b64 \
